@@ -4,10 +4,10 @@
 	id		= "com.phonegap.getting.started"
 	version 	= "1.0.0">
 
-	<name>PhoneGap: Getting Started</name>
+	<name>Obymobi: Mobile app</name>
 
 	<description>
-		A template for getting started with PhoneGap development and build.phonegap.com
+		An application for ordering food and drinks by Crave Interactive
 	</description>
 
 	<author href="http://meneerotto.github.com"
