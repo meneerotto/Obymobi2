@@ -1,0 +1,530 @@
+﻿<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+
+  <title>Crave</title>
+  <meta name="description" content="Obymobi">
+  <meta name="author" content="Grenos">
+  
+  <!-- Mobile viewport optimization http://goo.gl/b9SaQ -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320"/>
+  <meta name="viewport" content="width=device-width; user-scalable=no; initial-scale=1.0; minimum-scale=1.0; maximum-scale=1.0">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Iphone -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <link rel="icon" type="image/png" href="icon-apple.png">
+  <link rel="apple-touch-icon-precomposed" href="icon-apple.png"/>
+  
+  <script language="javascript" src="Cache/sessvars.js" type="text/javascript"></script>
+
+  <style type="text/css">
+
+  </style>
+    <script type="text/javascript">
+        function disableBackButton() {
+            window.history.forward();
+        }
+        setTimeout("disableBackButton()", 0);
+    </script>
+</head>
+
+<body>
+
+  <div id="container" class="startpagina">
+    <header>
+		<div id="obymobilogo">Obymobi</div> 
+		<div id="horecanaam"></div>
+    </header>
+    <div id="main" role="main">
+		<nav class="top" id="topID">
+			<a id="topLeft" onclick="showIndexPage();" class="previous">Back</a> 
+			<a id="topRight" href="#" class="next totaal leeg"></a>
+		</nav>
+		
+        <!-- index pagina -->
+		<div id="contentmain">
+			<h1 id="horecalogo">
+				<span id="horecanaamLogo"></span>
+			</h1>
+		    
+			<ul id="mainmenu">
+                <li><a onclick="showCompanies();" id="addCompany">Search company</a></li>
+                <div id="companySearchDiv">
+                    <div id="companiesDivContent">
+                    Search:
+                    <input type="text" id="searchValue" onkeypress="searchKeyPress(event);" />
+                    <div onclick="searchCompany();" id="companiesDivSearchIcon"></div>
+
+                    <div id="searchResult">
+                        
+                    </div>
+                </div>
+                </div>
+                <li id="hiddenLi"><a></a></li>
+				<li><a onclick="showCategoriePage(true);" style="cursor: pointer;">New order</a></li>
+				<li><a href="#">Previously ordered food &amp; drinks</a></li>
+				<li><a href="#">Service request</a></li>
+				<li><a href="#">Share with friends</a></li>
+			</ul>
+            <div id="loadingDiv">
+                
+            </div>
+            <div id="loadingGifBG">
+                <div id="loadingGif">
+                    
+                </div>
+                <div id="loadingText">
+                    Loading menu
+                </div>
+            </div>
+		</div>
+
+        <!-- categorie pagina -->
+        <div id="categorielijst">
+			
+			<ul id="mainmenuCategorie">
+			   
+			</ul>
+			
+		</div>
+
+        <!-- producten pagina -->
+        <div id="productlijst">
+            
+		</div>
+
+        <div id="productenlijst">
+			
+			<ul id="mainmenuProducten">
+			   
+			</ul>
+			
+		</div>
+
+        <!-- product pagina -->
+        <div id="detailpagina">
+		    
+        </div>
+
+        <!-- besteloverzicht pagina -->
+        <div id="bestellijst">
+			
+		</div>
+
+        <!-- bestelbevestiging pagina -->
+        <div id="bestelbevestigingslijst">
+			<p class="bedankt">
+				Bedankt voor de bestelling,
+				Deze wordt zo snel mogelijk bij
+				u gebracht.
+			</p>
+			
+			<ul id="Ul1">
+			   <li class="header">wat wilt u nu doen?</li>
+				<li><a href="#">Bestelgeschiedenis bekijken</a></li>
+				<li><a href="#">Nieuwe bestelling maken</a></li>
+				<li><a href="#">Delen met vrienden</a></li>
+				<li><a href="#">Naar de startpagina</a></li>
+			</ul>
+			
+		</div>
+    </div>
+
+    <footer>
+
+    </footer>
+  </div> 
+
+  
+  <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if necessary 
+  <script src='jquery-1.5.1.min.js'> </script>-->
+    <script type="text/javascript" src="JavaScript/zepto.js"></script>
+
+    <script language="javascript" src="Models/JsonQueries.js" type="text/javascript"></script>
+
+    <script language="javascript" src="XML/Global.js" type="text/javascript"></script>
+    <script language="javascript" src="XML/XMLWriter.js" type="text/javascript"></script>
+    <script language="javascript" src="XML/orderXML.js" type="text/javascript"></script>
+
+    <script language="javascript" src="JavaScript/jquery-1.3.1.js" type="text/javascript"></script>
+    <script language="javascript" src="JavaScript/jMsAjax.js" type="text/javascript"></script>
+    <script language="javascript" src="JavaScript/WS.js" type="text/javascript"></script>
+    <script language="javascript" src="JavaScript/JSON.js" type="text/javascript"></script>
+    
+    <!-- Pagina's -->
+    <script language="javascript" src="Paginas/functions.js" type="text/javascript"></script>
+    <script language="javascript" src="Paginas/allPages.js" type="text/javascript"></script>
+    <script language="javascript" src="Paginas/index.js" type="text/javascript"></script>
+    <script language="javascript" src="Paginas/categorie.js" type="text/javascript"></script>
+    <script language="javascript" src="Paginas/producten.js" type="text/javascript"></script>
+    <script language="javascript" src="Paginas/product.js" type="text/javascript"></script>
+    <script language="javascript" src="Paginas/besteloverzicht.js" type="text/javascript"></script>
+    <script language="javascript" src="Paginas/bestelbevestiging.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        addPage("showIndexPage(false)");
+
+        var company_id;
+        var customer_id = "214";
+        var method;
+        var args = {};
+        var service;
+
+        checkForCompany();
+
+        if (sessvars.menuLoaded == undefined || sessvars.menuLoaded == false) {
+            //Laad het menu
+            if (company_id != undefined) {
+                sessvars.menuLoaded = true;
+                this.getMenu(company_id, customer_id);
+            }
+        }
+        
+        function searchKeyPress(e) {
+            if (window.event) { e = window.event; }
+            if (e.keyCode == 13) {
+                this.searchCompany();
+            }
+        }
+
+        function checkForCompany() {
+            if (sessvars.selectedCompany != undefined) {
+                var selectedCompany = sessvars.selectedCompany;
+                document.getElementById("horecanaam").innerHTML = selectedCompany.companyName;
+                document.getElementById("horecanaamLogo").innerHTML = selectedCompany.companyName;
+            }
+        }
+
+        function searchCompany() {
+            var searchValue = document.getElementById("searchValue").value;
+            this.GetCompaniesBySearchQuery(customer_id, searchValue);
+        }
+
+        function companyBySearch_received(response) {
+            var searchResult = document.getElementById("searchResult");
+            searchResult.innerHTML = "";
+
+            for (var i = 0; i < response.ModelCollection.length; i++) {
+                var companyId = response.ModelCollection[i].CompanyId;
+                var companyName = response.ModelCollection[i].Name;
+                searchResult.innerHTML += "<a style='cursor: pointer; ' onclick='setNewCompany(" + companyId + ")'>" + companyName + "</a> <br /> ";
+            }
+
+            if (response.ModelCollection.length == 0) {
+                searchResult.innerHTML = "No results";
+            }
+        }
+
+        function setNewCompany(companyId) {
+            //Klap dat ding dicht
+            document.getElementById("companySearchDiv").style.visibility = "hidden";
+            document.getElementById("companySearchDiv").style.display = "none";
+
+            //Show loading gif
+            document.getElementById("loadingDiv").style.visibility = "visible";
+            document.getElementById("loadingDiv").style.display = "block";
+            document.getElementById("loadingGifBG").style.visibility = "visible";
+            document.getElementById("loadingGifBG").style.display = "block";
+            
+            this.loadCompany(companyId);
+        }
+
+        function loadCompany(companyId) {
+            company_id = companyId;
+
+            var selectedCompany = new Object();
+            selectedCompany.companyId = companyId;
+            selectedCompany.customerId = customer_id;
+
+            selectedCompany.PaymentmethodId = "";
+            selectedCompany.PaymentmethodName = "";
+            selectedCompany.DeliverypointNumber = "";
+
+            sessvars.selectedCompany = selectedCompany;
+
+            this.GetCompanyByCompanyId(companyId, customer_id);
+
+            this.getMenu(companyId, customer_id);
+            sessvars.menuLoaded = true;
+
+            this.getPaymentMethods(companyId, customer_id);
+            sessvars.Paymentmethods = true;
+        }
+
+        function company_received(response) {
+            document.getElementById("horecanaam").innerHTML = response.ModelCollection[0].Name;
+            document.getElementById("horecanaamLogo").innerHTML = response.ModelCollection[0].Name;
+
+            var selectedCompany = sessvars.selectedCompany;
+            selectedCompany.companyName = response.ModelCollection[0].Name;
+            sessvars.selectedCompany = selectedCompany;
+        }
+
+        function payments_received(response) {
+            var paymentsCount = response.ModelCollection.length;
+            var payments = new Array();
+
+            for (var i = 0; i < paymentsCount; i++) {
+                var paymentObject = new Object();
+                paymentObject.PaymentmethodId = response.ModelCollection[i].PaymentmethodId;
+                paymentObject.Name = response.ModelCollection[i].Name;
+                paymentObject.CompanyId = response.ModelCollection[i].CompanyId;
+                payments[i] = paymentObject;
+            }
+
+            sessvars.Paymentmethods = payments;
+        }
+
+        function menu_received(response) {
+            var collectionCount = response.ModelCollection.length - 1;
+            var modelCollection = new Array();
+
+            var index = 0;
+            for (var i = 0; i <= collectionCount; i++) {
+                if (response.ModelCollection[i].Media != null && response.ModelCollection[i].Media[0] != undefined) {
+                    if (response.ModelCollection[i].Alterations == null) {
+                        if (response.ModelCollection[i].ProductSuggestions != null || response.ModelCollection[i].ProductSuggestions != "") {
+                            modelCollection[index] = returnMenuItem(response.ModelCollection[i].Id, response.ModelCollection[i].Name, response.ModelCollection[i].ItemType, response.ModelCollection[i].ParentProductmenuItemId, response.ModelCollection[i].Media, true, response.ModelCollection[i].PriceIn, response.ModelCollection[i].Description, false, null, true, response.ModelCollection[i].ProductSuggestions, response.ModelCollection[i].ParentProductmenuItemId, true);
+                        }
+                        else {
+                            modelCollection[index] = returnMenuItem(response.ModelCollection[i].Id, response.ModelCollection[i].Name, response.ModelCollection[i].ItemType, response.ModelCollection[i].ParentProductmenuItemId, response.ModelCollection[i].Media, true, response.ModelCollection[i].PriceIn, response.ModelCollection[i].Description, false, null, false, response.ModelCollection[i].ProductSuggestions, response.ModelCollection[i].ParentProductmenuItemId, true);
+                        }
+                    }
+                    else {
+                        if (response.ModelCollection[i].Alterations[0] != undefined) {
+                            if (response.ModelCollection[i].ProductSuggestions != null || response.ModelCollection[i].ProductSuggestions != "") {
+                                modelCollection[index] = returnMenuItem(response.ModelCollection[i].Id, response.ModelCollection[i].Name, response.ModelCollection[i].ItemType, response.ModelCollection[i].ParentProductmenuItemId, response.ModelCollection[i].Media, true, response.ModelCollection[i].PriceIn, response.ModelCollection[i].Description, true, response.ModelCollection[i].Alterations, true, response.ModelCollection[i].ProductSuggestions, response.ModelCollection[i].ParentProductmenuItemId, true);
+                            }
+                            else {
+                                modelCollection[index] = returnMenuItem(response.ModelCollection[i].Id, response.ModelCollection[i].Name, response.ModelCollection[i].ItemType, response.ModelCollection[i].ParentProductmenuItemId, response.ModelCollection[i].Media, true, response.ModelCollection[i].PriceIn, response.ModelCollection[i].Description, true, response.ModelCollection[i].Alterations, false, response.ModelCollection[i].ProductSuggestions, response.ModelCollection[i].ParentProductmenuItemId, true);
+                            }
+
+                        } else {
+                            if (response.ModelCollection[i].ProductSuggestions != null || response.ModelCollection[i].ProductSuggestions != "") {
+                                modelCollection[index] = returnMenuItem(response.ModelCollection[i].Id, response.ModelCollection[i].Name, response.ModelCollection[i].ItemType, response.ModelCollection[i].ParentProductmenuItemId, response.ModelCollection[i].Media, true, response.ModelCollection[i].PriceIn, response.ModelCollection[i].Description, false, null, true, response.ModelCollection[i].ProductSuggestions, response.ModelCollection[i].ParentProductmenuItemId, true);
+                            }
+                            else {
+                                modelCollection[index] = returnMenuItem(response.ModelCollection[i].Id, response.ModelCollection[i].Name, response.ModelCollection[i].ItemType, response.ModelCollection[i].ParentProductmenuItemId, response.ModelCollection[i].Media, true, response.ModelCollection[i].PriceIn, response.ModelCollection[i].Description, false, null, false, response.ModelCollection[i].ProductSuggestions, response.ModelCollection[i].ParentProductmenuItemId, true);
+                            }
+                        }
+                    }
+                }
+                else {
+                    if (response.ModelCollection[i].Alterations == null) {
+                        if (response.ModelCollection[i].ProductSuggestions != null || response.ModelCollection[i].ProductSuggestions != "") {
+                            modelCollection[index] = returnMenuItem(response.ModelCollection[i].Id, response.ModelCollection[i].Name, response.ModelCollection[i].ItemType, response.ModelCollection[i].ParentProductmenuItemId, null, true, response.ModelCollection[i].PriceIn, response.ModelCollection[i].Description, false, null, true, response.ModelCollection[i].ProductSuggestions, response.ModelCollection[i].ParentProductmenuItemId, false);
+                        }
+                        else {
+                            modelCollection[index] = returnMenuItem(response.ModelCollection[i].Id, response.ModelCollection[i].Name, response.ModelCollection[i].ItemType, response.ModelCollection[i].ParentProductmenuItemId, null, true, response.ModelCollection[i].PriceIn, response.ModelCollection[i].Description, false, null, false, response.ModelCollection[i].ProductSuggestions, response.ModelCollection[i].ParentProductmenuItemId, false);
+                        }
+                    }
+                    else {
+                        if (response.ModelCollection[i].Alterations[0] != undefined) {
+                            if (response.ModelCollection[i].ProductSuggestions != null || response.ModelCollection[i].ProductSuggestions != "") {
+                                modelCollection[index] = returnMenuItem(response.ModelCollection[i].Id, response.ModelCollection[i].Name, response.ModelCollection[i].ItemType, response.ModelCollection[i].ParentProductmenuItemId, null, true, response.ModelCollection[i].PriceIn, response.ModelCollection[i].Description, true, response.ModelCollection[i].Alterations, true, response.ModelCollection[i].ProductSuggestions, response.ModelCollection[i].ParentProductmenuItemId, false);
+                            }
+                            else {
+                                modelCollection[index] = returnMenuItem(response.ModelCollection[i].Id, response.ModelCollection[i].Name, response.ModelCollection[i].ItemType, response.ModelCollection[i].ParentProductmenuItemId, null, true, response.ModelCollection[i].PriceIn, response.ModelCollection[i].Description, true, response.ModelCollection[i].Alterations, false, response.ModelCollection[i].ProductSuggestions, response.ModelCollection[i].ParentProductmenuItemId, false);
+                            }
+                        } else {
+                            if (response.ModelCollection[i].ProductSuggestions != null || response.ModelCollection[i].ProductSuggestions != "") {
+                                modelCollection[index] = returnMenuItem(response.ModelCollection[i].Id, response.ModelCollection[i].Name, response.ModelCollection[i].ItemType, response.ModelCollection[i].ParentProductmenuItemId, null, true, response.ModelCollection[i].PriceIn, response.ModelCollection[i].Description, false, null, true, response.ModelCollection[i].ProductSuggestions, response.ModelCollection[i].ParentProductmenuItemId, false);
+                            }
+                            else {
+                                modelCollection[index] = returnMenuItem(response.ModelCollection[i].Id, response.ModelCollection[i].Name, response.ModelCollection[i].ItemType, response.ModelCollection[i].ParentProductmenuItemId, null, true, response.ModelCollection[i].PriceIn, response.ModelCollection[i].Description, false, null, false, response.ModelCollection[i].ProductSuggestions, response.ModelCollection[i].ParentProductmenuItemId, false);
+                            }
+                        }
+                    }
+                }
+
+                index++;
+            }
+
+            sessvars.ModelCollection = modelCollection;
+
+            //Hide loading gif
+            document.getElementById("loadingDiv").style.visibility = "hidden";
+            document.getElementById("loadingDiv").style.display = "none";
+            document.getElementById("loadingGifBG").style.visibility = "hidden";
+            document.getElementById("loadingGifBG").style.display = "none";
+
+            //Laat indexpagina verdwijnen en laat categorie pagina zien.
+            this.showCategoriePage();
+        }
+
+        function returnMenuItem(id, name, ItemType, parentId, Media, hasImage, PriceIn, Description, hasAlterations, Alteration, hasProductSuggestions, ProductSuggestions, ParentProductmenuItemId, hasFilePathRelativeToMediaPath) {
+            var menuItem = new Object();
+            menuItem.ID = id;
+            menuItem.Name = name;
+            menuItem.ItemType = ItemType;
+            menuItem.ParentProductmenuItemId = parentId;
+
+            if (hasFilePathRelativeToMediaPath == true) {
+                var imagePathButton;
+                var imagePathBrand;
+                var imageButtonSet = false;
+                var imageBrandSet = false;
+
+                for (var i = 0; i < Media.length; i++) {
+                    if (Media[i].MediaType == "300") {
+                        if (Media[i].FilePathRelativeToMediaPath.indexOf("Categories") != -1) {
+                            var dbPath = Media[i].FilePathRelativeToMediaPath;
+                            var beginPath = "Products/" + company_id + "/Categories/";
+                            var endPath = dbPath.toString().substring(11, dbPath.toString().length);
+                            imagePathButton = beginPath + endPath;
+                            imageButtonSet = true;
+                        } else if (Media[i].FilePathRelativeToMediaPath.indexOf("Products") != -1) {
+                            var dbPath = Media[i].FilePathRelativeToMediaPath;
+                            var beginPath = "Products/" + company_id + "/Products/";
+                            var endPath = dbPath.toString().substring(9, dbPath.toString().length);
+                            imagePathButton = beginPath + endPath;
+                            imageButtonSet = true;
+                        }
+                    } else if (Media[i].MediaType == "200") {
+                        if (Media[i].FilePathRelativeToMediaPath.indexOf("Categories") != -1) {
+                            var dbPath = Media[i].FilePathRelativeToMediaPath;
+                            var beginPath = "Products/" + company_id + "/Categories/";
+                            var endPath = dbPath.toString().substring(11, dbPath.toString().length);
+                            imagePathBrand = beginPath + endPath;
+                            imageBrandSet = true;
+                        } else if (Media[i].FilePathRelativeToMediaPath.indexOf("Products") != -1) {
+                            var dbPath = Media[i].FilePathRelativeToMediaPath;
+                            var beginPath = "Products/" + company_id + "/Products/";
+                            var endPath = dbPath.toString().substring(9, dbPath.toString().length);
+                            imagePathBrand = beginPath + endPath;
+                            imageBrandSet = true;
+                        }
+                    }
+                }
+
+                if (imageButtonSet == false) {
+                    if (Media[0].FilePathRelativeToMediaPath.indexOf("Categories") != -1) {
+                        // Category path image    
+                        var dbPath = Media[0].FilePathRelativeToMediaPath;
+                        var beginPath = "Products/" + company_id + "/Categories/";
+                        var endPath = dbPath.toString().substring(11, dbPath.toString().length);
+                        imagePathButton = beginPath + endPath;
+                    }
+                    else if (Media[0].FilePathRelativeToMediaPath.indexOf("Products") != -1) {
+                        // Products path image
+                        var dbPath = Media[0].FilePathRelativeToMediaPath;
+                        var beginPath = "Products/" + company_id + "/Products/";
+                        var endPath = dbPath.toString().substring(9, dbPath.toString().length);
+                        imagePathButton = beginPath + endPath;
+                    }
+                }
+
+                if (imageBrandSet == false) {
+                    if (Media[0].FilePathRelativeToMediaPath.indexOf("Categories") != -1) {
+                        var dbPath = Media[0].FilePathRelativeToMediaPath;
+                        var beginPath = "Products/" + company_id + "/Categories/";
+                        var endPath = dbPath.toString().substring(11, dbPath.toString().length);
+                        imagePathBrand = beginPath + endPath;
+                    } else if (Media[0].FilePathRelativeToMediaPath.indexOf("Products") != -1) {
+                        var dbPath = Media[0].FilePathRelativeToMediaPath;
+                        var beginPath = "Products/" + company_id + "/Products/";
+                        var endPath = dbPath.toString().substring(9, dbPath.toString().length);
+                        imagePathBrand = beginPath + endPath;
+                    }
+                }
+
+                if (imageButtonSet == true) {
+                    menuItem.FilePathRelativeToMediaPath = imagePathButton.toString();
+                } else {
+                    menuItem.FilePathRelativeToMediaPath = "";
+                }
+
+                if (imageBrandSet == true) {
+                    //Dit veroorzaakt de erreur
+
+                    menuItem.FilePathRelativeToMediaPath2 = imagePathBrand.toString();
+                } else {
+                    menuItem.FilePathRelativeToMediaPath2 = "";
+                }
+            } else {
+                menuItem.FilePathRelativeToMediaPath = "";
+                menuItem.FilePathRelativeToMediaPath2 = "";
+            }
+
+            menuItem.hasImage = hasImage;
+            menuItem.PriceIn = PriceIn;
+            menuItem.Description = Description;
+            menuItem.hasAlterations = hasAlterations;
+            menuItem.Alteration = Alteration;
+
+            /*
+            if (menuItem.hasAlterations == true) {
+                //Objecten handmatig maken voor elke alteration. Loop door de meegegeven Alterations om de objecten handmatig te maken
+                var alterationsArray = new Array();
+                
+                var indexAlteration = 0;
+                for (var i = 0; i < Alteration.length; i++){
+                    var AlterationObj = new Object();
+                    var AlterationoptionsObj = new Array;
+
+                    AlterationObj.AlterationId = Alteration[i].AlterationId.toString();
+                    AlterationObj.Name = Alteration[i].Name.toString();
+
+                    //options
+                    var indexOption = 0;
+                    for (var j = 0; j < Alteration[i].Alterationoptions.length; j++) {
+                        var AlterationoptionObj = new Object();
+                        AlterationoptionObj.AlterationoptionId = Alteration[i].Alterationoptions[j].AlterationoptionId.toString();
+                        AlterationoptionObj.Name = Alteration[i].Alterationoptions[j].Name.toString();
+                        AlterationoptionObj.PriceAddition = Alteration[i].Alterationoptions[j].PriceAddition.toString();
+                        AlterationoptionObj.Description = Alteration[i].Alterationoptions[j].Description.toString();
+                        AlterationoptionObj.PosproductId = Alteration[i].Alterationoptions[j].PosproductId.toString();
+                        AlterationoptionObj.IsProductRelated = Alteration[i].Alterationoptions[j].IsProductRelated.toString();
+                        AlterationoptionsObj[indexOption] = AlterationoptionObj;
+                        indexOption++;
+                    }
+                    AlterationObj.Alterationoptions = AlterationoptionsObj;
+                    AlterationObj.Alterationoptions = "";
+                    AlterationObj.DefaultAlterationoptionId = Alteration[i].DefaultAlterationoptionId.toString();
+                    AlterationObj.MinOptions = Alteration[i].MinOptions.toString();
+                    AlterationObj.MaxOptions = Alteration[i].MaxOptions.toString();
+                    alterationsArray[indexAlteration] = AlterationObj;
+                    indexAlteration++;
+                }
+                menuItem.Alteration = alterationsArray;
+            } else {
+                menuItem.Alteration = "";
+            }
+            */
+
+            menuItem.hasProductSuggestions = hasProductSuggestions;
+            menuItem.ProductSuggestions = ProductSuggestions;
+            menuItem.ParentProductmenuItemId = ParentProductmenuItemId;
+            menuItem.hasFilePathRelativeToMediaPath = hasFilePathRelativeToMediaPath;
+            return menuItem;
+        }
+
+        function error_occurred(error) {
+            alert("Failed to execute query. Contact software engineer.");
+        }
+
+        function showCompanies() {
+            var companiesDiv = document.getElementById("companySearchDiv");
+            var hiddenLi = document.getElementById("hiddenLi");
+
+            if (companiesDiv.style.visibility == "visible") {
+                companiesDiv.style.visibility = "hidden";
+                companiesDiv.style.display = "none";
+            } else {
+                companiesDiv.style.visibility = "visible";
+                companiesDiv.style.display = "block";
+            }
+        }
+
+        $("a.previous").attr('href', '#');
+        $(".top").hide();
+    </script>
+  
+    </body>
+</html>

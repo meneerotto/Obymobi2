@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title></title>
+  <meta name="description" content="Obymobi">
+  <meta name="author" content="Grenos">
+  
+  <!-- Mobile viewport optimization http://goo.gl/b9SaQ -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320"/>
+  <meta name="viewport" content="width=320px; user-scalable=no; initial-scale=1.0; minimum-scale=1.0; maximum-scale=1.0">
+  
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  
+  <style type="text/css">
+#bestellijst ul li.negatief a span {
+    text-decoration: none !important;
+}
+.top .plaatsen {
+	display:none;
+}
+
+#awesomeknop {
+	display:block;
+    background-color: #EEEEEE;
+    border: 1px solid #F4F4F4;
+    height: 36px;
+    line-height: 36px;
+    margin: 0 5px;
+    outline: 1px solid #B0B0B0;
+    padding: 0 15px;
+    position: absolute;
+    right: 0;
+    text-shadow: 0 1px 1px white;
+    font-weight:normal;
+}
+
+#awesomeknop:after {
+	display:normal;
+	height:45px;
+	width:10px;
+}
+  </style>
+</head>
+
+<body>
+
+  <div id="container" class="producten geschiedenis laatste">
+    <header>
+		<div id="obymobilogo">Obymobi</div> 
+		<div id="horecanaam">Cafe de Nuit</div>
+    </header>
+    <div id="main" role="main">
+		<nav class="top">
+			<a href="#" onclick="history.go(-1)" class="previous">terug</a> 
+			<a href="#tafelnummer" class="next plaatsen">totaal 0 items</a> 
+		</nav>
+		
+		<div id="bestellijst">
+			<ul>
+				<li class="header">Laatste bestelling <em>20 juli 16:43</em></li>
+				<li class="product negatief"><span>0</span><img height="45px" width="62px" src="productimages/7062-productbutton-136w-93h-coca-cola.jpg" alt="productafbeelding"/> <a href="#"><span>Cola <em>1x 2,20</em></span></a><button type="button" class="plus">+</button><button type="button" class="minus">-</button></li>
+				<li class="product negatief"><span>0</span><img height="45px" width="62px" src="productimages/9845-productbutton-136w-93h-cappuccino.jpg" alt="productafbeelding"/><a href="#"><span>Cappuccino <em>1x 2,40</em></span></a><button type="button" class="plus">+</button><button type="button" class="minus">-</button></li>
+				<li class="product negatief"><span>0</span><img height="45px" width="62px" src="productimages/9016-productbutton-136w-93h-thee.jpg" alt="productafbeelding"/> <a href="#"><span>Thee Groen <em>1x 1,90</em></span></a><button type="button" class="plus">+</button><button type="button" class="minus">-</button></li>
+				<li class="product negatief"><span>0</span><img height="45px" width="62px" src="productimages/7281-productbutton-136w-93h-palm-fles.jpg" alt="productafbeelding"/><a href="#"><span>Palm fles <em>1x 2,60</em></span></a><button type="button" class="plus">+</button><button type="button" class="minus">-</button></li>
+
+				<!--
+				<li class="header">Eten</li>
+				<li class="product"><span>2</span><a href="#"><span>Broodje Mexicano <em>2,20</em></span></a><button type="button" class="plus">+</button><button type="button" class="minus">-</button></li>
+				-->				
+			</ul>
+			<p class="totaalbedrag">Totaalbedrag: <span>9,10</span>
+				<a id="awesomeknop" href="besteloverzicht.html" class="next plaatsen">Nogmaals plaatsen</a> 
+			</p>
+			<!--
+			<form action="besteloverzicht.html" method="GET">
+			<button type="submit" id="plaatsen" value="Bestelling plaatsen">Nogmaals bestellen</button>
+			</form>-->
+			<div class="clr"></div>
+		</div>
+    </div>
+    
+    <footer>
+
+    </footer>
+  </div> <!--! end of #container -->
+
+
+    <script src='JavaScript/zepto.js'></script>
+
+  <script>
+	//$("a.previous").attr('href', 'categorie.html');
+  
+  </script>
+  
+</body>
+</html>
